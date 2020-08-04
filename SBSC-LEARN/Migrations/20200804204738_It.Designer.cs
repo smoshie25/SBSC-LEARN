@@ -10,8 +10,8 @@ using SBSC_LEARN.Data;
 namespace SBSC_LEARN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200804100225_DateTime")]
-    partial class DateTime
+    [Migration("20200804204738_It")]
+    partial class It
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,8 +143,8 @@ namespace SBSC_LEARN.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("Score")
                         .HasColumnType("int");
@@ -162,30 +162,6 @@ namespace SBSC_LEARN.Migrations
                     b.HasIndex("VideoID");
 
                     b.ToTable("Exams");
-                });
-
-            modelBuilder.Entity("SBSC_LEARN.Data.RecentlyViewed", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("VideoID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VideoID");
-
-                    b.ToTable("RecentlyVieweds");
                 });
 
             modelBuilder.Entity("SBSC_LEARN.Data.User", b =>
@@ -380,22 +356,11 @@ namespace SBSC_LEARN.Migrations
             modelBuilder.Entity("SBSC_LEARN.Data.Exam", b =>
                 {
                     b.HasOne("SBSC_LEARN.Data.User", "User")
-                        .WithMany()
+                        .WithMany("Exams")
                         .HasForeignKey("UserId");
 
                     b.HasOne("SBSC_LEARN.Data.Video", "Video")
-                        .WithMany()
-                        .HasForeignKey("VideoID");
-                });
-
-            modelBuilder.Entity("SBSC_LEARN.Data.RecentlyViewed", b =>
-                {
-                    b.HasOne("SBSC_LEARN.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("SBSC_LEARN.Data.Video", "Video")
-                        .WithMany()
+                        .WithMany("Exams")
                         .HasForeignKey("VideoID");
                 });
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SBSC_LEARN.Migrations
 {
-    public partial class Init : Migration
+    public partial class It : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,6 +40,8 @@ namespace SBSC_LEARN.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
@@ -173,7 +175,7 @@ namespace SBSC_LEARN.Migrations
                     Name = table.Column<string>(nullable: false),
                     Descripton = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
+                    Date = table.Column<DateTimeOffset>(nullable: false),
                     Likes = table.Column<int>(nullable: false),
                     CategoryID = table.Column<Guid>(nullable: false)
                 },
@@ -195,7 +197,7 @@ namespace SBSC_LEARN.Migrations
                     ID = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: true),
                     VideoID = table.Column<Guid>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false),
+                    Date = table.Column<DateTimeOffset>(nullable: false),
                     Score = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -209,32 +211,6 @@ namespace SBSC_LEARN.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Exams_Videos_VideoID",
-                        column: x => x.VideoID,
-                        principalTable: "Videos",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RecentlyVieweds",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: true),
-                    VideoID = table.Column<Guid>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RecentlyVieweds", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_RecentlyVieweds_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RecentlyVieweds_Videos_VideoID",
                         column: x => x.VideoID,
                         principalTable: "Videos",
                         principalColumn: "ID",
@@ -291,16 +267,6 @@ namespace SBSC_LEARN.Migrations
                 column: "VideoID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecentlyVieweds_UserId",
-                table: "RecentlyVieweds",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RecentlyVieweds_VideoID",
-                table: "RecentlyVieweds",
-                column: "VideoID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Videos_CategoryID",
                 table: "Videos",
                 column: "CategoryID");
@@ -325,9 +291,6 @@ namespace SBSC_LEARN.Migrations
 
             migrationBuilder.DropTable(
                 name: "Exams");
-
-            migrationBuilder.DropTable(
-                name: "RecentlyVieweds");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
